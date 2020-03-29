@@ -3,6 +3,7 @@
 
 from Tkinter import Tk, BOTH
 from ttk import Frame, Button, Label, Combobox
+import pyvisa
 
 
 class MainWindow(Frame):
@@ -20,7 +21,7 @@ class MainWindow(Frame):
         chooseLabel = Label(self, text='Choose necessary equipment and click the "Connect" button')
         chooseLabel.place(x=10, y=10)
 
-        connectButton = Button(self, text="Connect", command=self.connectTo)
+        connectButton = Button(self, text="Connect", command=self.determineEquipment)
         connectButton.place(x=10, y=40)
 
         self.equipmentList['values'] = ('Power Supply Rigol DP832A',
@@ -30,7 +31,7 @@ class MainWindow(Frame):
         self.equipmentList.place(x=110, y=40)
 
     # Function to determing chosen equipment
-    def connectTo(self):
+    def determineEquipment(self):
         currentEquipmentIndex = self.equipmentList.current()
         if currentEquipmentIndex == 0:
             currentEquipment="Power Supply Rigol DP832A"
@@ -38,8 +39,14 @@ class MainWindow(Frame):
             currentEquipment="Oscilloscope Rigol MSO1104"
         else:
             currentEquipment="Multimeter Rigol DM3058E"
+
         print(currentEquipment)
 
+def connect(equipment):
+    rm = pyvisa.ResourceManager()
+    print(rm.list_resources())
+    my_instrument = rm.open_resource('GPIB0::14::INSTR') # Здесь имя необходмого инструмента из листа
+    my_instrument.query("*IDN?")
 
 
 def main():
