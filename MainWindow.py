@@ -9,6 +9,8 @@ class MainWindow(Frame):
     def __init__(self, parent):
         Frame.__init__(self, parent)
         self.parent = parent
+        self.equipmentList = Combobox(self, height=30, width=25)
+
         self.initUI()
 
     def initUI(self):
@@ -18,15 +20,26 @@ class MainWindow(Frame):
         chooseLabel = Label(self, text='Choose necessary equipment and click the "Connect" button')
         chooseLabel.place(x=10, y=10)
 
-        connectButton = Button(self, text="Connect")
+        connectButton = Button(self, text="Connect", command=self.connectTo)
         connectButton.place(x=10, y=40)
 
-        equipmentList = Combobox(self, height=30, width=25)
-        equipmentList['values'] = ('Power Supply Rigol DP832A',
+        self.equipmentList['values'] = ('Power Supply Rigol DP832A',
                                    'Oscilloscope Rigol MSO1104',
                                    'Multimeter Rigol DM3058E')
-        equipmentList.current(1)
-        equipmentList.place(x=110, y=40)
+        self.equipmentList.current(1)
+        self.equipmentList.place(x=110, y=40)
+
+    # Function to determing chosen equipment
+    def connectTo(self):
+        currentEquipmentIndex = self.equipmentList.current()
+        if currentEquipmentIndex == 0:
+            currentEquipment="Power Supply Rigol DP832A"
+        elif currentEquipmentIndex == 1:
+            currentEquipment="Oscilloscope Rigol MSO1104"
+        else:
+            currentEquipment="Multimeter Rigol DM3058E"
+        print(currentEquipment)
+
 
 
 def main():
