@@ -2,17 +2,19 @@
 # -*- coding: utf-8 -*-
 
 from Tkinter import Tk
-from View import View
-from Model import Model
+
 from Controller import Controller
+from Model import Model
+from PowerSupplyView import PowerSupplyView
+
 
 def main():
     root = Tk()
-    root.maxsize(450, 200)
-    root.minsize(450, 200)
+    root.maxsize(720, 420)
+    root.minsize(720, 420)
     model = Model()
     controller = Controller(model)
-    app = View(root, controller)
+    app = PowerSupplyView(root, controller)
     model.setView(app)
     root.mainloop()
 
