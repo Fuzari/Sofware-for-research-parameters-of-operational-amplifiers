@@ -21,3 +21,7 @@ class PowerSupplyController:
         print("A", amperage)
         print("lim A", limitAmperage)
         print("Controller's setOutputCall implemented.")
+
+    def setTrackingCall(self, canal):
+        self.model.setTrackingTo(canal=canal)
+        print("Controller's setTrackingCall implemented.")

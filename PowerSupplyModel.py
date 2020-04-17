@@ -32,3 +32,11 @@ class PowerSupplyModel:
         ans = "output"
         self.view.setOutputAnswer(ans=ans)
         print("Model's setOutput implemented.")
+
+    def setTrackingTo(self, canal):
+        rm = pyvisa.ResourceManager()
+        powerSupply = rm.open_resource("GPIB0::14::INSTR")  # Здесь необходим идентификатор Источника напряжения
+        powerSupply.write(':OUTPT:TRAC ' + canal + ',ON')
+        ans = 'Tracking'
+        self.view.setTrackingAnswer(ans=ans)
+        print("Model's setTrackingTo implemented.")

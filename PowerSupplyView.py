@@ -43,7 +43,7 @@ class PowerSupplyView(Frame):
         clearButton.place(x=2, y=185)
 
         # Configuring a "Check work" button
-        checkButton = Button(self, text='Check work', command=self.clearTextField)
+        checkButton = Button(self, text='Check work', command=self.controller.checkWorkCall)
         checkButton.place(x=90, y=185)
 
         # Setting CV output
@@ -66,9 +66,6 @@ class PowerSupplyView(Frame):
         self.amperageEntry.place(x=120, y=300)
         self.limitEntry.place(x=120, y=340)
 
-        setCVButton = Button(self, text='Set CV output', command=self.clearTextField)
-        setCVButton.place(x=2, y=380)
-
         self.voltageList.place(x=180, y=273)
         self.voltageList['values'] = ('V', 'mV', 'uV', 'nV')
         self.voltageList.current(0)
@@ -81,6 +78,9 @@ class PowerSupplyView(Frame):
         self.limitAmperageList['values'] = ('A', 'mA', 'uA', 'nA')
         self.limitAmperageList.current(0)
 
+        setCVButton = Button(self, text='Set CV output', command=self.setOutputButtonFunc)
+        setCVButton.place(x=2, y=380)
+
         # Setting track function
         trackLabel = Label(self, text='Set track function\n to output:')
         trackLabel.place(x=250, y=220)
@@ -88,9 +88,31 @@ class PowerSupplyView(Frame):
         self.trackFunList.place(x=250, y=260)
         self.trackFunList['values'] = ('CH1', 'CH2')
 
-        trackButton = Button(self, text='Set', command=self.clearTextField)
+        trackButton = Button(self, text='Set', command=self.setTracking)
         trackButton.place(x=250, y=290)
 
     # Функция очистки всего поля с полученными сообщениями
     def clearTextField(self):
         self.textFrame.delete('1.0', END)
+
+    def checkWorkAnswer(self, ans):
+        self.textFrame.insert(1.0, ans+'\n')
+        print("View's checkWorkAnswer implemented.")
+
+    def setOutputButtonFunc(self):
+        self.controller.setOutputCall(canal=self.outputList.get(),
+                                      voltage=self.voltageEntry.get(),
+                                      amperage=self.amperageEntry.get(),
+                                      limitAmperage=self.limitEntry.get())
+
+    def setOutputAnswer(self, ans):
+        self.textFrame.insert(1.0, ans+'\n')
+        print("View's setOutputAnswer implemented.")
+
+    def setTracking(self):
+        canal = self.trackFunList.get()
+        self.controller.setTrackingCall(canal=canal)
+
+    def setTrackingAnswer(self, ans):
+        self.textFrame.insert(1.0, ans + '\n')
+        print("View's setTrackingAnswer implemented.")
